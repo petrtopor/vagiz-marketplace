@@ -1,0 +1,21 @@
+# render.yaml for Nuxt 3 SSR project (vagiz-marketplace)
+
+services:
+  # Описываем наш основной веб-сервис (приложение Nuxt)
+  - type: web # Тип сервиса: веб-приложение
+    name: vagiz-marketplace # Название сервиса (может быть любым)
+    env: node # Среда выполнения: Node.js
+    plan: free # Используем бесплатный тарифный план Render
+    region: frankfurt # Опционально: выберите регион (напр., frankfurt для Европы, oregon для США)
+
+    # Команды, которые Render выполнит при развертывании
+    buildCommand: "pnpm install && pnpm run build" # Сначала установка зависимостей через pnpm, затем сборка Nuxt
+    startCommand: "node .output/server/index.mjs" # Команда для запуска продакшн-сервера Nitro
+
+    # Переменные окружения для запущенного сервиса
+    envVars:
+      - key: HOST
+        value: 0.0.0.0 # Указывает серверу Nitro слушать все сетевые интерфейсы внутри контейнера Render
+      - key: NODE_ENV
+        value: production # Устанавливает режим Node.js в 'production' (важно для производительности)
+      # Переменную PORT Render предоставляет автоматически, ее здесь указывать не нужно
