@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from "vue";
+import { ref, watch } from "vue";
 import { useFetch, useAsyncData } from "#app";
 import type { Product } from "~/types/product";
 import ProductCard from "~/components/ProductCard.vue";
@@ -62,7 +62,7 @@ import SortFilterControls from "~/components/SortFilterControls.vue";
 
 // Состояние для контролов (v-model в SortFilterControls)
 // Значения по умолчанию должны совпадать с серверными
-const controlsState = reactive({
+const controlsState = ref({
   sort: {
     key: "name" as keyof Product,
     order: "asc" as "asc" | "desc",
@@ -85,17 +85,17 @@ const queryParams = computed(() => {
   const params: Record<string, string | number> = {
     page: currentPage.value,
     limit: itemsPerPage.value,
-    sortKey: controlsState.sort.key,
-    sortOrder: controlsState.sort.order,
+    sortKey: controlsState.value.sort.key,
+    sortOrder: controlsState.value.sort.order,
   };
-  if (controlsState.filters.selected.category) {
-    params.category = controlsState.filters.selected.category;
+  if (controlsState.value.filters.selected.category) {
+    params.category = controlsState.value.filters.selected.category;
   }
-  if (controlsState.filters.selected.brand) {
-    params.brand = controlsState.filters.selected.brand;
+  if (controlsState.value.filters.selected.brand) {
+    params.brand = controlsState.value.filters.selected.brand;
   }
-  if (controlsState.filters.selected.minRating) {
-    params.minRating = controlsState.filters.selected.minRating;
+  if (controlsState.value.filters.selected.minRating) {
+    params.minRating = controlsState.value.filters.selected.minRating;
   }
   return params;
 });
@@ -108,7 +108,6 @@ const { data, pending, error, refresh } = await useAsyncData(
   () =>
     $fetch("/api/products", {
       params: queryParams.value, // Передаем параметры
-      // query: queryParams.value // Альтернативный синтаксис
     }),
   {
     watch: [queryParams], // Следим за изменениями параметров
@@ -120,14 +119,15 @@ const { data, pending, error, refresh } = await useAsyncData(
 // Обновляем состояние контролов, если оно пришло с сервера (на случай прямой ссылки с параметрами)
 // Это нужно, чтобы UI соответствовал данным
 if (data.value?.sort) {
-  controlsState.sort.key = data.value.sort.key;
-  controlsState.sort.order = data.value.sort.order;
+  controlsState.value.sort.key = data.value.sort.key;
+  controlsState.value.sort.order = data.value.sort.order;
 }
 if (data.value?.filters?.selected) {
-  controlsState.filters.selected.category =
+  controlsState.value.filters.selected.category =
     data.value.filters.selected.category;
-  controlsState.filters.selected.brand = data.value.filters.selected.brand;
-  controlsState.filters.selected.minRating =
+  controlsState.value.filters.selected.brand =
+    data.value.filters.selected.brand;
+  controlsState.value.filters.selected.minRating =
     data.value.filters.selected.minRating;
 }
 if (data.value?.pagination?.currentPage) {
