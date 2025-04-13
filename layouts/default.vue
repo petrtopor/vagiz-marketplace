@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="flex flex-col min-h-screen bg-gray-50">
     <header class="bg-white shadow-md sticky top-0 z-10">
       <nav
         class="container mx-auto px-4 py-3 flex justify-between items-center"
@@ -37,11 +37,11 @@
       </nav>
     </header>
 
-    <main class="container mx-auto px-4 py-8">
+    <main class="flex-grow container mx-auto px-4 py-8">
       <slot />
     </main>
 
-    <footer class="bg-gray-800 text-white text-center p-4 mt-auto">
+    <footer class="bg-gray-800 text-white text-center p-4">
       <p>
         &copy; {{ new Date().getFullYear() }} Vagiz Marketplace. Все права
         защищены.
@@ -56,7 +56,7 @@ const { cartItemCount } = useCart();
 </script>
 
 <style>
-/* Можно добавить глобальные стили здесь или в assets/css/tailwind.css */
+/* Styles remain the same */
 body {
   font-family: sans-serif;
 }
