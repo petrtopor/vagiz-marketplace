@@ -9,6 +9,7 @@
 - **🚀 Live Demo (Render):** [**https://vagiz-marketplace.onrender.com/**](https://vagiz-marketplace.onrender.com/)
 - **💻 Репозиторий GitHub:** [https://github.com/petrtopor/vagiz-marketplace](https://github.com/petrtopor/vagiz-marketplace)
 - **📋 Доска проекта GitHub:** [https://github.com/users/petrtopor/projects/3](https://github.com/users/petrtopor/projects/3)
+- **📋 Само тестовое задание :** [https://docs.google.com/document/d/1H8xy60eDrhz_s5wuPRvGJivJ_1gJ5vEggeiA3rI_jBg](https://docs.google.com/document/d/1H8xy60eDrhz_s5wuPRvGJivJ_1gJ5vEggeiA3rI_jBg)
 
 ---
 
