@@ -9,7 +9,8 @@
 - **🚀 Live Demo (Render):** [**https://vagiz-marketplace.onrender.com/**](https://vagiz-marketplace.onrender.com/)
 - **💻 Репозиторий GitHub:** [https://github.com/petrtopor/vagiz-marketplace](https://github.com/petrtopor/vagiz-marketplace)
 - **📋 Доска проекта GitHub:** [https://github.com/users/petrtopor/projects/3](https://github.com/users/petrtopor/projects/3)
-- **📋 Само тестовое задание :** [https://docs.google.com/document/d/1H8xy60eDrhz_s5wuPRvGJivJ_1gJ5vEggeiA3rI_jBg](https://docs.google.com/document/d/1H8xy60eDrhz_s5wuPRvGJivJ_1gJ5vEggeiA3rI_jBg)
+- **📋 Само тестовое задание :** [PDF-версия](<https://github.com/petrtopor/vagiz-marketplace/blob/main/assets/QTIM%20%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D0%BE%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20(hard)%20-%20%D1%84%D1%80%D0%BE%D0%BD%D1%82.pdf>)
+- **📋 Moё pезюме :** [Файлом здесь в репозитории](https://github.com/petrtopor/vagiz-marketplace/blob/main/assets/Mo%D1%91%20pe%D0%B7%D1%8E%D0%BCe.pdf)
 
 ---
 
