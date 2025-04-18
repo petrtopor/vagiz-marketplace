@@ -11,7 +11,7 @@ Male, 34 years old, born November 22, 1990
 
 **Personal Information:**
 
-- **Location:** St. Petersburg, Russia
+- **Location:** Saint Petersburg
 - **Citizenship:** Russia
 - **Work Permits:** Russia, Serbia, Georgia, Kazakhstan, Montenegro
 - **Availability:** Willing to relocate, willing to travel for business
@@ -34,7 +34,7 @@ Male, 34 years old, born November 22, 1990
 ### Frontend Developer
 
 **Hoff Tech** | August 2023 – March 2025 (1 year 8 months)
-_St. Petersburg_
+_Saint Petersburg_
 _Industry: Information Technology, System Integration, Internet_
 
 - Software Development
@@ -44,6 +44,7 @@ _Industry: Information Technology, System Integration, Internet_
   - Interacted with business stakeholders and backend, DevOps, design, and testing teams.
   - Decomposed and estimated tasks, developed new features, and modified/enhanced existing functionality.
   - Wrote tests (e2e with Cypress and unit tests with Jest).
+- **Technology Stack:** `Vue.js` (presumably), `JavaScript`, `HTML5`, `CSS3`, `Cypress`, `Jest`, `Git`. Possibly: `Docker`, `CI/CD`.
 
 ### Frontend Developer
 
@@ -57,6 +58,7 @@ _Industry: Information Technology, System Integration, Internet_
   - Collaborated closely with related backend and testing teams.
   - Conducted demos and retrospectives with business representatives.
   - Implemented best practices within the frontend development team and improved inter-team collaboration.
+- **Technology Stack:** `JavaScript`, `HTML5`, `CSS3`, `Git`. Possibly: `Vue.js` or another frontend framework.
 
 ### Frontend Developer
 
@@ -71,6 +73,7 @@ _Industry: Information Technology, System Integration, Internet_
   - Worked on web applications for projects, including:
     1.  Internal application for M-Video store sales consultants (Angular)
     2.  Morning Star project (Vue)
+- **Technology Stack:** `Vue.js`, `Angular`, `JavaScript`, `HTML5`, `CSS3`, `Git`.
 
 ### Frontend Developer
 
@@ -85,6 +88,7 @@ _Industry: Information Technology, System Integration, Internet_
   - Worked on web applications for projects, including:
     1.  Ferro Building industrial enterprise (Vue)
     2.  Yandex Go Dev (React)
+- **Technology Stack:** `Vue.js`, `React`, `JavaScript`, `HTML5`, `CSS3`, `Git`.
 
 ### Frontend Developer
 
@@ -98,6 +102,7 @@ _Industry: Information Technology, System Integration, Internet_
   - Introduced e2e and unit testing (Cypress & Jest respectively).
   - Migrated legacy components from AngularJS to Vue.
   - Implemented a UI kit based on Storybook.
+- **Technology Stack:** `Vue.js`, `AngularJS`, `JavaScript`, `HTML5`, `CSS3`, `Cypress`, `Jest`, `Storybook`, `Git`.
 
 ### Frontend Developer
 
@@ -109,6 +114,7 @@ _Industry: Information Technology, System Integration, Internet_
 - **Responsibilities:**
   - Implemented business logic for the Mr. Black web application (www.mrblackapp.com) using AngularJS.
   - Wrote automated tests using Puppeteer.
+- **Technology Stack:** `AngularJS`, `JavaScript`, `HTML`, `CSS`, `Puppeteer`, `Git`.
 
 ### Programmer
 
@@ -122,10 +128,11 @@ _Industry: Information Technology, System Integration, Internet_
   - Implemented page designs in markup.
   - Performed unit and e2e testing.
   - Conducted and participated in code reviews.
+- **Technology Stack:** `Angular`, `Vue.js`, `JavaScript`, `HTML`, `CSS`, `Git`, Unit/E2E testing tools.
 
 ### Programmer-Developer
 
-**BIN Insurance, LLC** | (Dates not specified in original CV)
+**BIN Insurance, LLC** | (Dates not specified in CV)
 _Russia, www.binins.ru_
 _Industry: Financial Sector_
 
@@ -134,6 +141,7 @@ _Industry: Financial Sector_
   - Personally developed an electronic document management system, widely implemented throughout the company.
   - Led the development of the Corporate Portal.
   - Wrote numerous insurance calculators and interfaces used for issuing insurance policies.
+- **Technology Stack:** Stack not specified in CV (likely included technologies for developing corporate systems and portals, possibly non-web).
 
 ### Trainee Programmer
 
@@ -147,12 +155,13 @@ _Industry: Information Technology, System Integration, Internet_
   - Gained experience in commercial software development.
   - Worked with the 1C-Bitrix CMS.
   - Learned team-based development methodologies and how to understand and modify existing code.
+- **Technology Stack:** `1C-Bitrix`, `PHP` (presumably), `HTML`, `CSS`, `JavaScript`.
 
 ---
 
 ## Education
 
-**Higher Education** (Completed up to 2012)
+**Higher Education** (Completed by 2012)
 Ulyanovsk State Technical University, Ulyanovsk
 _Faculty of Information Systems and Technologies_
 
@@ -170,7 +179,7 @@ _Faculty of Information Systems and Technologies_
 **Technical Skills:**
 
 - `OOP`, `HTML`, `HTML5`, `CSS3`, `JavaScript`, `Vue`
-- _Implied from experience:_ `Angular`, `React`, `Cypress`, `Jest`, `Puppeteer`, `Node.js`, `.NET`, `CI/CD`, `Docker`, `Git`, `1C-Bitrix`
+- _From experience:_ `Angular`, `React`, `Cypress`, `Jest`, `Puppeteer`, `Node.js`, `.NET`, `CI/CD`, `Docker`, `Git`, `1C-Bitrix`
 
 ---
 
