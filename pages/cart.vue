@@ -24,18 +24,18 @@
         >
           <div class="flex items-center space-x-4">
             <img
-              :src="item.image"
-              :alt="item.name"
+              :src="item.product.image"
+              :alt="item.product.name"
               class="w-16 h-16 object-contain rounded border"
             />
             <div>
               <NuxtLink
-                :to="`/products/${item.id}`"
+                :to="`/products/${item.product.id}`"
                 class="text-lg font-semibold hover:underline"
-                >{{ item.name }}</NuxtLink
+                >{{ item.product.name }}</NuxtLink
               >
               <p class="text-sm text-gray-500">
-                {{ formatPrice(item.price) }} / шт.
+                {{ formatPrice(item.product.price) }} / шт.
               </p>
             </div>
           </div>
@@ -67,7 +67,7 @@
               </button>
             </div>
             <p class="font-semibold w-24 text-right">
-              {{ formatPrice(item.price * item.quantity) }}
+              {{ formatPrice(item.product.price * item.quantity) }}
             </p>
             <button
               @click="removeFromCart(item.id)"
@@ -108,7 +108,19 @@
             </div>
           </div>
 
-          <form @submit.prevent="handleCheckout">
+          <div v-if="!isAuthenticated" class="mb-4">
+            <p class="text-red-500">
+              Пожалуйста, войдите, чтобы оформить заказ.
+            </p>
+            <NuxtLink
+              to="/login"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors duration-200"
+            >
+              Войти
+            </NuxtLink>
+          </div>
+
+          <form v-else @submit.prevent="handleCheckout">
             <div class="mb-3">
               <label
                 for="name"
@@ -180,8 +192,11 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
+import { useRuntimeConfig } from "#app";
 import { useCart } from "~/composables/useCart";
+import { useAuth } from "~/composables/useAuth";
 
+const config = useRuntimeConfig();
 const {
   cart,
   cartTotal,
@@ -190,6 +205,7 @@ const {
   removeFromCart,
   clearCart,
 } = useCart();
+const { isAuthenticated } = useAuth();
 
 const userData = reactive({
   name: "",
@@ -201,22 +217,10 @@ const isCheckingOut = ref(false);
 const checkoutMessage = ref<string | null>(null);
 const checkoutError = ref(false);
 
-// Обработчик для инпута количества, чтобы обновлять при потере фокуса или Enter
-// или можно обновлять при каждом изменении (@input), но может быть менее производительно
-const handleQuantityInput = (productId: string, value: string) => {
+const handleQuantityInput = (id: string, value: string) => {
   const quantity = parseInt(value, 10);
   if (!isNaN(quantity) && quantity >= 0) {
-    // Обновляем только если значение валидно
-    // Если 0, то товар удалится внутри updateQuantity
-    updateQuantity(productId, quantity);
-  } else {
-    // Если ввели не число, можно сбросить к текущему значению или 1
-    const currentItem = cart.value.find((item) => item.id === productId);
-    if (currentItem) {
-      // Восстанавливаем значение в инпуте (требует v-model или доп. логики)
-      // Проще пока просто игнорировать некорректный ввод или удалять при 0
-      if (quantity === 0) updateQuantity(productId, 0);
-    }
+    updateQuantity(id, quantity);
   }
 };
 
@@ -226,19 +230,16 @@ const handleCheckout = async () => {
   checkoutError.value = false;
 
   try {
-    const response = await $fetch("/api/cart/checkout", {
+    const response = await $fetch(`${config.public.apiBase}/cart/checkout`, {
       method: "POST",
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       body: {
-        cartItems: cart.value,
         userData: userData,
-        totalAmount: cartTotal.value,
       },
     });
 
-    // @ts-ignore // Предполагаем, что ответ соответствует ожиданиям
     checkoutMessage.value = `${response.message} ID Заказа: ${response.orderId}`;
-    clearCart(); // Очищаем корзину после успешного заказа
-    // Сбрасываем форму
+    clearCart();
     userData.name = "";
     userData.email = "";
     userData.address = "";
@@ -253,7 +254,6 @@ const handleCheckout = async () => {
   }
 };
 
-// Вспомогательная функция для форматирования цены
 const formatPrice = (price: number): string => {
   return new Intl.NumberFormat("ru-RU", {
     style: "currency",
@@ -262,7 +262,6 @@ const formatPrice = (price: number): string => {
   }).format(price);
 };
 
-// Установка заголовка страницы
 useHead({
   title: "Корзина - Vagiz Marketplace",
   meta: [

@@ -37,6 +37,7 @@
             <li>Категория: {{ product.category }}</li>
             <li>Бренд: {{ product.brand }}</li>
             <li>Рейтинг: {{ product.rating }} / 5</li>
+            <li>Продавец: {{ product.seller.email }}</li>
           </ul>
         </div>
 
@@ -44,12 +45,20 @@
           {{ formatPrice(product.price) }}
         </p>
 
-        <button
-          @click="handleAddToCart"
-          class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded transition-colors duration-200"
-        >
-          Добавить в корзину
-        </button>
+        <div class="flex space-x-4">
+          <button
+            @click="handleAddToCart"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded transition-colors duration-200"
+          >
+            Добавить в корзину
+          </button>
+          <button
+            @click="handleAddToFavorites"
+            class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded transition-colors duration-200"
+          >
+            {{ isFavorite ? "Убрать из избранного" : "Добавить в избранное" }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -57,28 +66,30 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { useAsyncData } from "#app";
+import { useAsyncData, useRuntimeConfig } from "#app";
 import { useCart } from "~/composables/useCart";
+import { useFavorites } from "~/composables/useFavorites";
 import type { Product } from "~/types/product";
 
+const config = useRuntimeConfig();
 const route = useRoute();
-const productId = route.params.id as string; // Получаем ID из URL
+const productId = route.params.id as string;
 
 const { addToCart } = useCart();
+const { favorites, addToFavorites, removeFromFavorites, fetchFavorites } =
+  useFavorites();
 
-// Запрос данных о конкретном товаре
-// Ключ 'product-detail-${productId}' уникален для каждого товара
 const {
   data: product,
   pending,
   error,
-} = await useAsyncData<Product>(
-  `product-detail-${productId}`,
-  () => $fetch(`/api/products/${productId}`),
-  {
-    // server: true // По умолчанию true
-  }
+} = await useAsyncData<Product>(`product-detail-${productId}`, () =>
+  $fetch(`${config.public.apiBase}/products/${productId}`)
 );
+
+const isFavorite = computed(() => {
+  return favorites.value.some((fav) => fav.product.id === productId);
+});
 
 const handleAddToCart = () => {
   if (product.value) {
@@ -87,7 +98,23 @@ const handleAddToCart = () => {
   }
 };
 
-// Вспомогательная функция для форматирования цены
+const handleAddToFavorites = async () => {
+  if (!product.value) return;
+  if (isFavorite.value) {
+    const favorite = favorites.value.find(
+      (fav) => fav.product.id === productId
+    );
+    if (favorite) {
+      await removeFromFavorites(favorite.id);
+      alert(`${product.value.name} удален из избранного!`);
+    }
+  } else {
+    await addToFavorites(productId);
+    alert(`${product.value.name} добавлен в избранное!`);
+  }
+  await fetchFavorites();
+};
+
 const formatPrice = (price: number): string => {
   return new Intl.NumberFormat("ru-RU", {
     style: "currency",
@@ -96,8 +123,6 @@ const formatPrice = (price: number): string => {
   }).format(price);
 };
 
-// Установка заголовка и мета-тегов страницы
-// Делаем это внутри watchEffect, чтобы дождаться загрузки данных о товаре
 watchEffect(() => {
   if (product.value) {
     useHead({

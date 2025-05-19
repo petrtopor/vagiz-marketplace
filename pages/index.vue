@@ -53,15 +53,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { useFetch, useAsyncData } from "#app";
+import { ref, watch, computed } from "vue";
+import { useAsyncData, useRuntimeConfig } from "#app";
 import type { Product } from "~/types/product";
 import ProductCard from "~/components/ProductCard.vue";
 import Pagination from "~/components/Pagination.vue";
 import SortFilterControls from "~/components/SortFilterControls.vue";
 
-// Состояние для контролов (v-model в SortFilterControls)
-// Значения по умолчанию должны совпадать с серверными
+const config = useRuntimeConfig();
+
 const controlsState = ref({
   sort: {
     key: "name" as keyof Product,
@@ -76,11 +76,9 @@ const controlsState = ref({
   },
 });
 
-// Состояние для пагинации
 const currentPage = ref(1);
-const itemsPerPage = ref(12); // Количество товаров на странице
+const itemsPerPage = ref(12);
 
-// Формируем параметры запроса на основе состояния
 const queryParams = computed(() => {
   const params: Record<string, string | number> = {
     page: currentPage.value,
@@ -100,24 +98,17 @@ const queryParams = computed(() => {
   return params;
 });
 
-// Запрос данных с использованием useAsyncData для SSR
-// Ключ 'products-list' важен для кеширования и гидратации
-// watch позволяет автоматически перезапрашивать данные при изменении queryParams
 const { data, pending, error, refresh } = await useAsyncData(
   "products-list",
   () =>
-    $fetch("/api/products", {
-      params: queryParams.value, // Передаем параметры
+    $fetch(`${config.public.apiBase}/products`, {
+      params: queryParams.value,
     }),
   {
-    watch: [queryParams], // Следим за изменениями параметров
-    // initialCache: false, // Если нужно всегда свежие данные при навигации
-    // server: true, // По умолчанию true, для SSR
+    watch: [queryParams],
   }
 );
 
-// Обновляем состояние контролов, если оно пришло с сервера (на случай прямой ссылки с параметрами)
-// Это нужно, чтобы UI соответствовал данным
 if (data.value?.sort) {
   controlsState.value.sort.key = data.value.sort.key;
   controlsState.value.sort.order = data.value.sort.order;
@@ -134,32 +125,25 @@ if (data.value?.pagination?.currentPage) {
   currentPage.value = data.value.pagination.currentPage;
 }
 
-// Обработчик смены страницы
 const handlePageChange = (newPage: number) => {
   currentPage.value = newPage;
-  // useAsyncData с watch сам перезапросит данные
-  // Прокрутка вверх страницы
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-// Обработчик для кнопки "Попробовать снова" при ошибке
 const refreshData = async () => {
   await refresh();
 };
 
-// Сброс на первую страницу при изменении фильтров или сортировки
 watch(
   controlsState,
   () => {
     if (currentPage.value !== 1) {
       currentPage.value = 1;
     }
-    // useAsyncData с watch сам перезапросит данные
   },
   { deep: true }
-); // Глубокое слежение за объектом
+);
 
-// Установка заголовка страницы
 useHead({
   title: "Каталог товаров - Vagiz Marketplace",
   meta: [

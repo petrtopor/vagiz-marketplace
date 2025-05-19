@@ -7,10 +7,45 @@
         <NuxtLink to="/" class="text-xl font-bold text-blue-600">
           Vagiz Marketplace
         </NuxtLink>
-        <div>
+        <div class="flex items-center space-x-4">
+          <NuxtLink
+            v-if="isAuthenticated"
+            to="/profile"
+            class="text-gray-600 hover:text-blue-600"
+          >
+            Profile
+          </NuxtLink>
+          <NuxtLink
+            v-if="isAuthenticated && user?.roles.includes('seller')"
+            to="/seller/products"
+            class="text-gray-600 hover:text-blue-600"
+          >
+            My Products
+          </NuxtLink>
+          <NuxtLink
+            v-if="!isAuthenticated"
+            to="/login"
+            class="text-gray-600 hover:text-blue-600"
+          >
+            Login
+          </NuxtLink>
+          <NuxtLink
+            v-if="!isAuthenticated"
+            to="/register"
+            class="text-gray-600 hover:text-blue-600"
+          >
+            Register
+          </NuxtLink>
+          <button
+            v-if="isAuthenticated"
+            @click="logout"
+            class="text-gray-600 hover:text-blue-600"
+          >
+            Logout
+          </button>
           <NuxtLink
             to="/cart"
-            class="relative inline-block mr-4 text-gray-600 hover:text-blue-600"
+            class="relative inline-block text-gray-600 hover:text-blue-600"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -33,6 +68,31 @@
               {{ cartItemCount }}
             </span>
           </NuxtLink>
+          <NuxtLink
+            to="/favorites"
+            class="relative inline-block text-gray-600 hover:text-blue-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+            <span
+              v-if="favoritesCount > 0"
+              class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+            >
+              {{ favoritesCount }}
+            </span>
+          </NuxtLink>
         </div>
       </nav>
     </header>
@@ -43,8 +103,7 @@
 
     <footer class="bg-gray-800 text-white text-center p-4">
       <p>
-        &copy; {{ new Date().getFullYear() }} Vagiz Marketplace. Все права
-        защищены.
+        © {{ new Date().getFullYear() }} Vagiz Marketplace. Все права защищены.
       </p>
     </footer>
   </div>
@@ -52,15 +111,19 @@
 
 <script setup lang="ts">
 import { useCart } from "~/composables/useCart";
+import { useAuth } from "~/composables/useAuth";
+import { useFavorites } from "~/composables/useFavorites";
+
 const { cartItemCount } = useCart();
+const { isAuthenticated, user, logout } = useAuth();
+const { favoritesCount } = useFavorites();
 </script>
 
 <style>
-/* Styles remain the same */
 body {
   font-family: sans-serif;
 }
 .container {
-  max-width: 1280px; /* Ограничиваем ширину контейнера */
+  max-width: 1280px;
 }
 </style>
